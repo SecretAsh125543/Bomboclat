@@ -3,6 +3,7 @@
 
 #include "Pawns/Bird.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
 ABird::ABird()
@@ -13,8 +14,10 @@ ABird::ABird()
 	Capsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
 	RootComponent = Capsule;
 
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	Mesh->SetupAttachment(Capsule);
+	Swarm = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Swarm"));
+	Swarm->SetupAttachment(RootComponent);
+
+	AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
 
 // Called when the game starts or when spawned

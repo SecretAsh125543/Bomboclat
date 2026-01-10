@@ -28,6 +28,7 @@ public:
 private:
 	UPROPERTY(EditAnywhere)
 	class UCapsuleComponent* Capsule;
+
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* Mesh;
+	class USkeletalMeshComponent* Swarm;
 };
