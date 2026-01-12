@@ -3,7 +3,9 @@
 
 #include "Pawns/Bird.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/SkeletalMeshComponent.h"
+#include "Components/SkeletalMeshComponent.h" 
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
 
 // Sets default values
 ABird::ABird()
@@ -20,11 +22,18 @@ ABird::ABird()
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
 
+void ABird::Move(const FInputActionValue& Value)
+{
+	bool CurrentValue = Value.Get<bool>();
+	if (CurrentValue) {
+		GEngine->AddOnScreenDebugMessage(0, -1, FColor::Magenta, FString(TEXT("Input Triggered")));
+	}
+}
 // Called when the game starts or when spawned
 void ABird::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -39,5 +48,7 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
+	EnhancedInputComponent->BindAction(MoveForward, ETriggerEvent::Triggered, this, &ABird::Move);
 }
 

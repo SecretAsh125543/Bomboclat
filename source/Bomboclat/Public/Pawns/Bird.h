@@ -4,7 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "InputActionValue.h"
 #include "Bird.generated.h"
+
+class UCapsuleComponent;
+class USkeletalMeshComponent;
+class UInputAction;
 
 UCLASS()
 class BOMBOCLAT_API ABird : public APawn
@@ -19,6 +24,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputAction* MoveForward;
+
+	void Move(const FInputActionValue& Value);
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -27,8 +36,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 private:
 	UPROPERTY(EditAnywhere)
-	class UCapsuleComponent* Capsule;
+	UCapsuleComponent* Capsule;
 
 	UPROPERTY(EditAnywhere)
-	class USkeletalMeshComponent* Swarm;
+	USkeletalMeshComponent* Swarm;
 };
