@@ -24,9 +24,11 @@ ABird::ABird()
 
 void ABird::Move(const FInputActionValue& Value)
 {
-	bool CurrentValue = Value.Get<bool>();
-	if (CurrentValue) {
-		GEngine->AddOnScreenDebugMessage(0, -1, FColor::Magenta, FString(TEXT("Input Triggered")));
+	float MoveValue = Value.Get<float>();
+	if (Controller && (MoveValue != 0))
+	{
+		FVector ForwardVector = GetActorForwardVector();
+		AddMovementInput(ForwardVector, MoveValue);
 	}
 }
 // Called when the game starts or when spawned
