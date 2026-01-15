@@ -31,6 +31,15 @@ void ABird::Move(const FInputActionValue& Value)
 		AddMovementInput(ForwardVector, MoveValue);
 	}
 }
+void ABird::Look(const FInputActionValue& Value)
+{
+	FVector2D MouseValue = Value.Get<FVector2D>();
+	if(Controller)
+	{
+		AddControllerYawInput(MouseValue.X);
+		AddControllerPitchInput(MouseValue.Y);
+	}
+}
 // Called when the game starts or when spawned
 void ABird::BeginPlay()
 {
@@ -52,5 +61,6 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
 	EnhancedInputComponent->BindAction(MoveForward, ETriggerEvent::Triggered, this, &ABird::Move);
+	EnhancedInputComponent->BindAction(CameraMove, ETriggerEvent::Triggered, this, &ABird::Look);
 }
 
