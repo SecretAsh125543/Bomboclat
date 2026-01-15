@@ -22,15 +22,7 @@ ABird::ABird()
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
 
-void ABird::Move(const FInputActionValue& Value)
-{
-	float MoveValue = Value.Get<float>();
-	if (Controller && (MoveValue != 0))
-	{
-		FVector ForwardVector = GetActorForwardVector();
-		AddMovementInput(ForwardVector, MoveValue);
-	}
-}
+
 void ABird::Look(const FInputActionValue& Value)
 {
 	FVector2D MouseValue = Value.Get<FVector2D>();
@@ -40,6 +32,19 @@ void ABird::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(MouseValue.Y);
 	}
 }
+
+void ABird::Movement(const FInputActionValue& Value)
+{
+	FVector2D MovementValue = Value.Get<FVector2D>();
+	FVector ForwardVector = GetActorForwardVector();
+	FVector RightVector = GetActorRightVector();
+	if (Controller)
+	{
+		AddMovementInput(RightVector, MovementValue.X);
+		AddMovementInput(ForwardVector, MovementValue.Y);
+	}
+}
+
 // Called when the game starts or when spawned
 void ABird::BeginPlay()
 {
@@ -60,7 +65,7 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
-	EnhancedInputComponent->BindAction(MoveForward, ETriggerEvent::Triggered, this, &ABird::Move);
 	EnhancedInputComponent->BindAction(CameraMove, ETriggerEvent::Triggered, this, &ABird::Look);
+	EnhancedInputComponent->BindAction(InputMovement, ETriggerEvent::Triggered, this, &ABird::Movement);
 }
 
