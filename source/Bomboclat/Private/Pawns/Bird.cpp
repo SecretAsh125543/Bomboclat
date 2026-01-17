@@ -3,7 +3,9 @@
 
 #include "Pawns/Bird.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/SkeletalMeshComponent.h"
+#include "Components/SkeletalMeshComponent.h" 
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
 
 // Sets default values
 ABird::ABird()
@@ -20,11 +22,34 @@ ABird::ABird()
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
 
+
+void ABird::Look(const FInputActionValue& Value)
+{
+	FVector2D MouseValue = Value.Get<FVector2D>();
+	if(Controller)
+	{
+		AddControllerYawInput(MouseValue.X);
+		AddControllerPitchInput(MouseValue.Y);
+	}
+}
+
+void ABird::Movement(const FInputActionValue& Value)
+{
+	FVector2D MovementValue = Value.Get<FVector2D>();
+	FVector ForwardVector = GetActorForwardVector();
+	FVector RightVector = GetActorRightVector();
+	if (Controller)
+	{
+		AddMovementInput(RightVector, MovementValue.X);
+		AddMovementInput(ForwardVector, MovementValue.Y);
+	}
+}
+
 // Called when the game starts or when spawned
 void ABird::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -39,5 +64,8 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent);
+	EnhancedInputComponent->BindAction(CameraMove, ETriggerEvent::Triggered, this, &ABird::Look);
+	EnhancedInputComponent->BindAction(InputMovement, ETriggerEvent::Triggered, this, &ABird::Movement);
 }
 
