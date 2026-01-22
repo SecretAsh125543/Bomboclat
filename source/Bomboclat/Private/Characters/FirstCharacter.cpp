@@ -16,8 +16,6 @@ AFirstCharacter::AFirstCharacter()
 void AFirstCharacter::Look(const FInputActionValue& Value)
 {
 	FVector2D CameraValue = Value.Get<FVector2D>();
-	UE_LOG(LogTemp, Warning, TEXT("Look: %s"), *CameraValue.ToString());
-
 	if (Controller)
 	{
 		AddControllerPitchInput(CameraValue.Y);
@@ -29,13 +27,13 @@ void AFirstCharacter::Look(const FInputActionValue& Value)
 void AFirstCharacter::Movement(const FInputActionValue& Value)
 {
 	FVector2D MovementValue = Value.Get<FVector2D>();
-	FVector ForwardVector = GetActorForwardVector();
-	FVector RightVector = GetActorRightVector();
-	if (Controller)
-	{
-		AddMovementInput(ForwardVector, MovementValue.Y);
-		AddMovementInput(RightVector, MovementValue.X);
-	}
+	const FRotator YawRotation(0.f, GetControlRotation().Yaw, 0.f);
+
+	FVector ForwardVector = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+	FVector RightVector = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+	AddMovementInput(ForwardVector, MovementValue.Y);
+	AddMovementInput(RightVector, MovementValue.X);
 }
 
 // Called when the game starts or when spawned
