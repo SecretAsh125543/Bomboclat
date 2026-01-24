@@ -33,6 +33,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* ICameraMove;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputAction* IJump;
+
 	void Movement(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 };

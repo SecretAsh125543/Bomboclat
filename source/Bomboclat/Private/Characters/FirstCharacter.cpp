@@ -4,6 +4,7 @@
 #include "Characters/FirstCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AFirstCharacter::AFirstCharacter()
@@ -40,7 +41,6 @@ void AFirstCharacter::Movement(const FInputActionValue& Value)
 void AFirstCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -58,5 +58,6 @@ void AFirstCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 	EnhancedInputComponent->BindAction(IMovement, ETriggerEvent::Triggered, this, &AFirstCharacter::Movement);
 	EnhancedInputComponent->BindAction(ICameraMove, ETriggerEvent::Triggered, this, &AFirstCharacter::Look);
+	EnhancedInputComponent->BindAction(IJump, ETriggerEvent::Triggered, this, &AFirstCharacter::Jump);
 }
 
