@@ -17,12 +17,15 @@ public:
 	virtual void NativeInitializeAnimation() override; 
 	virtual void NativeUpdateAnimation(float DeltaTime) override;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "Movement")
 	class AFirstCharacter* Character;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "Movement")
 	class UCharacterMovementComponent* CharacterMovement;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = "Movement")
 	float GroundVelocity;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Movement")
+	bool IsFalling;
 };
