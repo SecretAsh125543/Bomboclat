@@ -8,6 +8,7 @@
 #include "FirstCharacter.generated.h"
 
 class UInputAction;
+class USpringArmComponent;
 
 UCLASS()
 class BOMBOCLAT_API AFirstCharacter : public ACharacter
@@ -36,6 +37,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* IJump;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputAction* IZoom;
+
+	USpringArmComponent* CameraBoom;
+
 	void Movement(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+	void Zoom(const FInputActionValue& Value);
 };
