@@ -5,6 +5,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -12,6 +13,12 @@ AFirstCharacter::AFirstCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->SetupAttachment(GetRootComponent());
+
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	Camera->SetupAttachment(CameraBoom);
 }
 
 void AFirstCharacter::Look(const FInputActionValue& Value)
@@ -22,7 +29,6 @@ void AFirstCharacter::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(CameraValue.Y);
 		AddControllerYawInput(CameraValue.X);
 	}
-
 }
 
 void AFirstCharacter::Zoom(const FInputActionValue& Value)
@@ -52,7 +58,6 @@ void AFirstCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	CameraBoom = GetComponentByClass<USpringArmComponent>();
 }
 
 // Called every frame

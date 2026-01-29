@@ -9,6 +9,7 @@
 
 class UInputAction;
 class USpringArmComponent;
+class UCameraComponent;
 
 UCLASS()
 class BOMBOCLAT_API AFirstCharacter : public ACharacter
@@ -39,8 +40,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* IZoom;
-
+	
+	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* CameraBoom;
+
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* Camera;
 
 	void Movement(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
