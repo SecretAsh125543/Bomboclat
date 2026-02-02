@@ -20,6 +20,18 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sine Variables")
+	float Amplitude = 0.75f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sine Variables")
+	float Velocity = 1.5f;
+
+	UFUNCTION(BlueprintPure)
+	float SineModifier();
+
+	UFUNCTION(BlueprintPure)
+	float CosineModifier();
+
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* ItemMesh;
 
@@ -35,6 +47,8 @@ protected:
 private:
 	template<typename T>
 	T Average(T First, T Second);
+
+	float RunningTime = 0;
 };
 
 template<typename T>

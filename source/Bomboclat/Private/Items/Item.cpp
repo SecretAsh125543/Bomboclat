@@ -17,6 +17,16 @@ AItem::AItem()
 	Sphere->SetupAttachment(GetRootComponent());
 }
 
+float AItem::SineModifier()
+{
+	return Amplitude * FMath::Sin(RunningTime * Velocity);
+}
+
+float AItem::CosineModifier()
+{
+	return Amplitude * FMath::Cos(RunningTime * Velocity);
+}
+
 void AItem::BeginOverlapSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Purple, TEXT("Contact"));
@@ -38,6 +48,8 @@ void AItem::BeginPlay()
 void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	RunningTime += DeltaTime;
 
+	GEngine->AddOnScreenDebugMessage(0, -1.f, FColor::Emerald, FString::Printf(TEXT("%f"), RunningTime));
 }
 
