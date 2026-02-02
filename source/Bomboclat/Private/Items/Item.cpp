@@ -29,12 +29,12 @@ float AItem::CosineModifier()
 
 void AItem::BeginOverlapSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Purple, TEXT("Contact"));
+	GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Purple, TEXT("Contact"));
 }
 
 void AItem::EndOverlapSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	GEngine->AddOnScreenDebugMessage(0, 2.f, FColor::Orange, TEXT("Contact End"));
+	GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Orange, TEXT("Contact End"));
 }
 
 void AItem::BeginPlay()
