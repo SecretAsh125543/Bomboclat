@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Items/Item.h"
+#include "Components/SphereComponent.h"
 #include "Bomboclat/DebugMacros.h"
 
 // Sets default values
@@ -12,31 +13,31 @@ AItem::AItem()
 	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
 	RootComponent = ItemMesh;
 
-	ItemMesh2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshSecondaryComponent"));
-	ItemMesh2->SetupAttachment(ItemMesh);
+	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	Sphere->SetupAttachment(GetRootComponent());
 }
 
-float AItem::SineModifier()
+void AItem::BeginOverlapSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	return Amplitude * FMath::Sin(RunningTime * Velocity);
+	GEngine->AddOnScreenDebugMessage(0, 5.f, FColor::Purple, TEXT("Contact"));
 }
 
-float AItem::CosineModifier()
+void AItem::EndOverlapSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	return Amplitude * FMath::Cos(RunningTime * Velocity);
+	GEngine->AddOnScreenDebugMessage(0, 2.f, FColor::Orange, TEXT("Contact End"));
 }
 
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AItem::BeginOverlapSphere);
+	Sphere->OnComponentEndOverlap.AddDynamic(this, &AItem::EndOverlapSphere);
 }
 
 void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	RunningTime += DeltaTime;
 
-	GEngine->AddOnScreenDebugMessage(0, -1.f, FColor::Emerald, FString::Printf(TEXT("%f"), RunningTime));
 }
 
