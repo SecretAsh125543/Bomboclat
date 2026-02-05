@@ -21,7 +21,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sine Variables")
-	float Amplitude = 0.75f;
+	float Amplitude = 0.5f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sine Variables")
 	float Velocity = 1.5f;
@@ -32,10 +32,10 @@ protected:
 	UFUNCTION(BlueprintPure)
 	float CosineModifier();
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* ItemMesh;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	class USphereComponent* Sphere;
 
 	UFUNCTION()
