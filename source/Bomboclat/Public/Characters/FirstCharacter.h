@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "CharacterStates.h"
 #include "FirstCharacter.generated.h"
 
 class UInputAction;
@@ -40,14 +41,27 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* IZoom;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	UInputAction* IEKeyPressed;
 	
+	void Movement(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
+	void Zoom(const FInputActionValue& Value);
+	void EKeyPressed(const FInputActionValue& Value);
+private:
+	ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* CameraBoom;
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* Camera;
 
-	void Movement(const FInputActionValue& Value);
-	void Look(const FInputActionValue& Value);
-	void Zoom(const FInputActionValue& Value);
+	UPROPERTY(VisibleInstanceOnly)
+	class AItem* OverlappedItem;
+
+public:
+	FORCEINLINE void OverlappedItemSetter(AItem* Item) { OverlappedItem = Item; }
+	FORCEINLINE ECharacterState GetCharacterState() const { return CharacterState; }
 };

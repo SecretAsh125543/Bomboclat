@@ -6,9 +6,6 @@
 #include "Items/Item.h"
 #include "Weapon.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class BOMBOCLAT_API AWeapon : public AItem
 {
@@ -18,4 +15,6 @@ protected:
 	virtual void BeginOverlapSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
 
 	virtual void EndOverlapSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) override;
+public:
+	void PickWeapon(USceneComponent* CharacterOverlapped, FName SocketName);
 };

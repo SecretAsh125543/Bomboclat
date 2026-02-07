@@ -3,6 +3,7 @@
 #include "Items/Item.h"
 #include "Components/SphereComponent.h"
 #include "Bomboclat/DebugMacros.h"
+#include "Characters/FirstCharacter.h"
 
 // Sets default values
 AItem::AItem()
@@ -29,12 +30,20 @@ float AItem::CosineModifier()
 
 void AItem::BeginOverlapSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Purple, TEXT("Contact"));
+	AFirstCharacter* Character = Cast<AFirstCharacter>(OtherActor);
+	if (Character)
+	{
+		Character->OverlappedItemSetter(this);
+	}
 }
 
 void AItem::EndOverlapSphere(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Orange, TEXT("Contact End"));
+	AFirstCharacter* Character = Cast<AFirstCharacter>(OtherActor);
+	if (Character)
+	{
+		Character->OverlappedItemSetter(nullptr);
+	}
 }
 
 void AItem::BeginPlay()

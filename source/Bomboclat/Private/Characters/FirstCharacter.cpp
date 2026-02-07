@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Items/Weapons/Weapon.h"
 
 // Sets default values
 AFirstCharacter::AFirstCharacter()
@@ -38,6 +39,19 @@ void AFirstCharacter::Zoom(const FInputActionValue& Value)
 	if (Controller && CameraBoom)
 	{
 		CameraBoom->TargetArmLength = FMath::Clamp(CameraBoom->TargetArmLength -= 20 * ZoomValue, 75.f, 750.f);
+	}
+}
+
+void AFirstCharacter::EKeyPressed(const FInputActionValue& Value)
+{
+	if (Value.Get<bool>())
+	{
+		AWeapon* Weapon = Cast<AWeapon>(OverlappedItem);
+		if (Weapon)
+		{
+			Weapon->PickWeapon(GetMesh(), FName("RightHandSocket"));
+			CharacterState = ECharacterState::ECS_EquippedOneHandWeapon;
+		}
 	}
 }
 
@@ -77,5 +91,6 @@ void AFirstCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	EnhancedInputComponent->BindAction(ICameraMove, ETriggerEvent::Triggered, this, &AFirstCharacter::Look);
 	EnhancedInputComponent->BindAction(IJump, ETriggerEvent::Triggered, this, &AFirstCharacter::Jump);
 	EnhancedInputComponent->BindAction(IZoom, ETriggerEvent::Triggered, this, &AFirstCharacter::Zoom);
+	EnhancedInputComponent->BindAction(IEKeyPressed, ETriggerEvent::Triggered, this, &AFirstCharacter::EKeyPressed);
 }
 
