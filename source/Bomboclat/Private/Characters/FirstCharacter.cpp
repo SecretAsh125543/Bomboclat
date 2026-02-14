@@ -55,6 +55,11 @@ void AFirstCharacter::EKeyPressed(const FInputActionValue& Value)
 	}
 }
 
+void AFirstCharacter::Attack(const FInputActionValue& Value)
+{
+
+}
+
 void AFirstCharacter::Movement(const FInputActionValue& Value)
 {
 	FVector2D MovementValue = Value.Get<FVector2D>();
@@ -92,5 +97,6 @@ void AFirstCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	EnhancedInputComponent->BindAction(IJump, ETriggerEvent::Triggered, this, &AFirstCharacter::Jump);
 	EnhancedInputComponent->BindAction(IZoom, ETriggerEvent::Triggered, this, &AFirstCharacter::Zoom);
 	EnhancedInputComponent->BindAction(IEKeyPressed, ETriggerEvent::Triggered, this, &AFirstCharacter::EKeyPressed);
+	EnhancedInputComponent->BindAction(IAttack, ETriggerEvent::Triggered, this, &AFirstCharacter::Attack);
 }
 
